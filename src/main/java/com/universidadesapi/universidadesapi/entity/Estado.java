@@ -1,5 +1,6 @@
 package com.universidadesapi.universidadesapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class Estado {
     private String nombre;
 
     @OneToMany(mappedBy = "estado",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonBackReference
     private List<Municipio> municipios;
 
 
