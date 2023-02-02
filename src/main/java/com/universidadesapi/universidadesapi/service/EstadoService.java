@@ -55,5 +55,13 @@ public class EstadoService {
     }
 
 
+    public ResponseEntity<Estado> delete(Long id){
+
+        if(!estadoRepository.existsById(id))return ResponseEntity.notFound().build();
+
+        estadoRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
 
