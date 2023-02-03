@@ -17,6 +17,9 @@ public class Municipio {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(length = 200)
+    private String nombre;
+
     @ManyToOne
     @JoinColumn(name = "id_state")
     private Estado estado;

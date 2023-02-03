@@ -5,6 +5,7 @@ services:
     image: postgres:latest
     ports: 
       - "5432:5432"
+    restart: always
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_USER: postgres
@@ -13,5 +14,14 @@ services:
       - db:/var/lib/postgresql/data
 
 
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=juanuchdzib@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "80:80"
+    depends_on:
+      - database
 volumes:
   db:

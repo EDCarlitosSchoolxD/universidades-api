@@ -39,7 +39,7 @@ public class EstadoService {
 
     public ResponseEntity<Estado> update(Estado estado, Long id){
         if(estado.getId() != null) {
-            if (estado.getId() != id) ResponseEntity.badRequest().build();
+            if (estado.getId() != id)return ResponseEntity.badRequest().build();
         }
 
         Optional<Estado> optSearch = estadoRepository.findById(id);
