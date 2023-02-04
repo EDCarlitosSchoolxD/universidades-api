@@ -1,5 +1,9 @@
 package com.universidadesapi.universidadesapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -11,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+
 public class Municipio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +31,7 @@ public class Municipio {
 
 
     @OneToMany(mappedBy = "municipio",cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<Universidad> universidades;
 
 }
