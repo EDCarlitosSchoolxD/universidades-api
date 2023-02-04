@@ -2,6 +2,7 @@ package com.universidadesapi.universidadesapi.controller;
 
 import com.universidadesapi.universidadesapi.entity.Universidad;
 import com.universidadesapi.universidadesapi.service.UniversidadService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class UniversidadController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Universidad> save(@RequestBody Universidad universidad){
+    public ResponseEntity<Universidad> save(@Valid @RequestBody Universidad universidad){
         return universidadService.save(universidad);
     }
 
@@ -33,7 +34,7 @@ public class UniversidadController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Universidad> update(@RequestBody Universidad universidad, @PathVariable Long id){
+    public ResponseEntity<Universidad> update(@Valid @RequestBody Universidad universidad, @PathVariable Long id){
         return  universidadService.update(universidad,id);
     }
 

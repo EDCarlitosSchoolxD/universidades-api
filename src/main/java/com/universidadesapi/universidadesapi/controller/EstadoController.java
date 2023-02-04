@@ -3,6 +3,7 @@ package com.universidadesapi.universidadesapi.controller;
 import com.universidadesapi.universidadesapi.entity.Estado;
 import com.universidadesapi.universidadesapi.repository.EstadoRepository;
 import com.universidadesapi.universidadesapi.service.EstadoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +29,14 @@ public class EstadoController {
 
 
     @PostMapping("/")
-    public ResponseEntity<Estado> save(@RequestBody Estado estado){
+    public ResponseEntity<Estado> save(@Valid @RequestBody Estado estado){
         return estadoService.save(estado);
     }
 
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Estado> update(@RequestBody Estado estado, @PathVariable Long id){
+    public ResponseEntity<Estado> update(@Valid @RequestBody Estado estado, @PathVariable Long id){
         return  estadoService.update(estado,id);
     }
 

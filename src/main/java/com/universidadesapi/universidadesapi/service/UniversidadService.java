@@ -49,6 +49,7 @@ public class UniversidadService {
 
 
         Universidad findSave = find.get();
+        universidad.setId(findSave.getId());
         universidad.setMunicipio(findSave.getMunicipio());
         universidad.setCarreras(findSave.getCarreras());
 

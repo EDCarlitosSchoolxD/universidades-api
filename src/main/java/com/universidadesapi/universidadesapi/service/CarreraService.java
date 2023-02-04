@@ -44,6 +44,7 @@ public class CarreraService {
         Optional<Carrera> find = carreraRepository.findById(id);
         if(find.isEmpty())return ResponseEntity.notFound().build();
 
+        carrera.setId(find.get().getId());
         carrera.setUniversidad(find.get().getUniversidad());
 
         Carrera result = carreraRepository.save(carrera);

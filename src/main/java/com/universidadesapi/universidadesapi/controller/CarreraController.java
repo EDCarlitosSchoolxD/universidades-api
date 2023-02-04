@@ -2,6 +2,7 @@ package com.universidadesapi.universidadesapi.controller;
 
 import com.universidadesapi.universidadesapi.entity.Carrera;
 import com.universidadesapi.universidadesapi.service.CarreraService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,12 @@ public class CarreraController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Carrera> save(@RequestBody Carrera carrera){
+    public ResponseEntity<Carrera> save(@Valid @RequestBody Carrera carrera){
         return carreraService.save(carrera);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Carrera> update(@RequestBody Carrera carrera, @PathVariable Long id){
+    public ResponseEntity<Carrera> update(@Valid @RequestBody Carrera carrera, @PathVariable Long id){
         return carreraService.update(carrera,id);
     }
 

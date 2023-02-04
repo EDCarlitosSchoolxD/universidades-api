@@ -3,6 +3,7 @@ package com.universidadesapi.universidadesapi.controller;
 import com.universidadesapi.universidadesapi.entity.Municipio;
 import com.universidadesapi.universidadesapi.repository.MunicipioRepository;
 import com.universidadesapi.universidadesapi.service.MunicipioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class MunicipioController {
 
 
     @PostMapping("/")
-    public ResponseEntity<Municipio> save(@RequestBody Municipio municipio){
+    public ResponseEntity<Municipio> save(@Valid @RequestBody Municipio municipio){
         return municipioService.save(municipio);
     }
 
@@ -35,7 +36,7 @@ public class MunicipioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Municipio> update(@RequestBody Municipio municipio, @PathVariable Long id){
+    public ResponseEntity<Municipio> update(@Valid @RequestBody Municipio municipio, @PathVariable Long id){
         return municipioService.update(municipio,id);
     }
 
