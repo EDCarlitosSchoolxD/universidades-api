@@ -28,10 +28,17 @@ public class Estado {
     @Size(min = 10, max = 255)
     private String nombre;
 
+
+
     @OneToMany(mappedBy = "estado",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonBackReference
     @ToString.Exclude
     private List<Municipio> municipios;
+
+
+    @OneToOne
+    @JoinColumn(name = "id_image")
+    private Image image;
 
 
 

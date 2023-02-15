@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "universidades-pruebas",
+  "private_key_id": "470cbae7e2aad875bfae30f92bf58f5f9d0b8b63",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDmnNdJk6IDCNB8\nuZ7UDGAhqJNWRTdR0tcTdXBIx6qi+kCPvDWZV8p54is+wzrOg07mTe97deOqP0my\nmGFESjLjoPiLU44tFihG90DRz/+IwmCPMA0mM4xxxIBSbzCpXT9L6a7RvpO2cpxi\nyhCWtj+Hl8d8P5guFKxjGnxlm1WNLFnm27wTNNDKr2xK6xttldK/2O88kE7NYKbc\nzjtXXdLp8Z4jgqYGiGCHK5sTWJ9Re5ZmICFuTw7dxb6IbMPnKIw+VoO6vUnKiACk\nNoGyH6d5Mts9ZDth9fvWs6cB9LsbikPDwjj/NOatD8wEj0CTuHkYk0FNFkkF62Y9\n/T+HpAGnAgMBAAECggEAJE/UmQyarr5NOyEXNe3E7UfX+0uRdwbV6tshFQoA1QIb\n9wX8V+rk7OWEnbCr/9HZM0EDpn2ySB+zAQt8CqlhnfS+GLd4DvgK24cZ48T2nZgj\nECjRc+RwsYaZa2GAA2BgE8Sgoad6fCNL0JpfRlE9a6JQkkCJO9LxhKFVA8K+aSii\nxwunJnBTBOymG8CGN7Is+auz45p6ifyWouL1ga2boIDAg+YsffPhdsGEqdNDnm3J\nNNPDuYxeVJ7fK+zj/V8sdJ1UcCrxsNaldJD3Iiw2q7/f68YFLWpiNKSy/ad34v7O\npCUpQw6/wsWya3KaVTCcLVxWjx9yKEiEgQryeDs3gQKBgQD1bpX2X5KyxRYHHxCx\nPJkrcPWH5aP38iNr2YrGizmNPKB9RKFQ4lS9OjtJGq5y+qs41YxipMfb0TlI47jG\nYszl0/pvexaCbwz8RJJiAfYJYlzMbWlFKLvuHdmgYac6SZiwHXQXa9dlfrmcyD86\n9MzenLtzpcQ0KqtyhOmljJOlIQKBgQDwiuaazGeNHQJsH8Os0dS6umvsdXov0Fyn\nomQLP80U6y2ch5bZj/Ui/s2Jm1KyuOszNfzu5fja8LN2at3EzMSXYx8CXczN6XjX\n3xOeFJnLRf2Tm+sgm/kEVfY7sIg+MP1tZ8tgKyfZjusqypnwKK3ya314yowuwzPc\nAEWkhQUFxwKBgDqyuhb0gKdUz5HgciORdKiZGX/pAjA4rxQKMVCO17LZvyB2m4Y2\nu0GOfcNcKEDDhtPO7wZglpQSE/tEy1pXIt4MtqaW76k+WgKze7cI9QkFh2A1AqpR\ntbCbXwMml9Iu69+jC7LWTeuuRUIj+ktlZOIQ5hwgly5KzjpTY3X+iwlBAoGBAOUx\npErJCr3Fb2Jw3bRUdtq4+E5lHVhjs3Uy4Rpq31DYSSyFcTG53jxLBrLgIWsTkV/J\nSEilLXoHsSfa6ZYz+fm5Q3mwwI1OsYsXDg0o2eV6ugQko2P92cbM1YLIUPjZGxBc\nvsbSN/UvHVo3k3fmet+qlfI7JFkGO+qbA8Cf0kpPAoGBAMW9ynUK2vCd/9ev5ci1\ns6UmTIktJGxlNS0LyQrUt1YOMJ1Jj8HUCzlCeQgKXgq6Ss56bPdoghbNU2P9gsB4\n3ixgtTATntfuncmXQvaDzKu8eLJ87TI9lnaakaXRXj/fV2ChqbtHj4lRFD9BjAeV\nJGFhtDpGLRgP50iA0yzjHy23\n-----END PRIVATE KEY-----\n",
+  "client_email": "uni-api@universidades-pruebas.iam.gserviceaccount.com",
+  "client_id": "108526568071275210940",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/uni-api%40universidades-pruebas.iam.gserviceaccount.com"
+}

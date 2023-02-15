@@ -1,11 +1,15 @@
 package com.universidadesapi.universidadesapi.service;
 
 import com.universidadesapi.universidadesapi.entity.Estado;
+import com.universidadesapi.universidadesapi.entity.Image;
 import com.universidadesapi.universidadesapi.repository.EstadoRepository;
+import com.universidadesapi.universidadesapi.repository.ImageRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +18,8 @@ public class EstadoService {
 
     @Autowired
     private EstadoRepository estadoRepository;
-
+    @Autowired
+    private ImageService imageService;
 
     public List<Estado> getAll(){
         return  estadoRepository.findAll();
@@ -22,6 +27,13 @@ public class EstadoService {
 
     public ResponseEntity<Estado> save(Estado estado){
         if(estado.getId() != null) ResponseEntity.badRequest().build();
+
+
+        Image image = imageService.saveImage(estado.getImage());
+        image.setEncode(null);
+        estado.setImage(image);
+
+        
 
         Estado resultado = estadoRepository.save(estado);
         return ResponseEntity.ok(resultado);
