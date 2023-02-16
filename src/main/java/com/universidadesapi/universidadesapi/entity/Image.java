@@ -1,7 +1,7 @@
 package com.universidadesapi.universidadesapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -33,6 +33,7 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id",nullable = false)
+    @Getter @Setter
     private Long id;
 
 
@@ -41,10 +42,18 @@ public class Image {
     @Getter @Setter
     private String ruta;
 
+
+
+    @NotBlank
+    @NotNull
+    @JsonIgnore
+    @Getter @Setter
+    private String rutaCloud;
+
+
     @NotNull
     @NotBlank
     @Getter @Setter
-
     private String tipo;
 
 

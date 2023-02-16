@@ -30,8 +30,11 @@ public class EstadoService {
 
 
         Image image = imageService.saveImage(estado.getImage());
-        image.setEncode(null);
-        estado.setImage(image);
+        if(image != null){
+            image.setEncode(null);
+            estado.setImage(image);
+        }
+        
 
         
 
@@ -40,7 +43,7 @@ public class EstadoService {
     }
 
     public ResponseEntity<Estado> getOne(Long id){
-        Optional optionalEstado = estadoRepository.findById(id);
+        Optional<Estado> optionalEstado = estadoRepository.findById(id);
         if(!optionalEstado.isPresent())return ResponseEntity.notFound().build();
 
         Estado resultado = (Estado) optionalEstado.get();
@@ -55,11 +58,25 @@ public class EstadoService {
         }
 
         Optional<Estado> optSearch = estadoRepository.findById(id);
-
         if(!optSearch.isPresent())return ResponseEntity.notFound().build();
 
         Estado resultadoSearch = optSearch.get();
         resultadoSearch.setNombre(estado.getNombre());
+
+
+        if(estado.getImage() != null && estado.getImage().getId() != null){
+            Image image = imageService.updateImage(estado.getImage());
+
+            if(image !=null){
+                image.setEncode(null);
+                resultadoSearch.setImage(image);
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
+            
+        }
+
+        
 
         Estado resultado = estadoRepository.save(resultadoSearch);
         return ResponseEntity.ok(resultado);
@@ -69,7 +86,14 @@ public class EstadoService {
 
     public ResponseEntity<Estado> delete(Long id){
 
-        if(!estadoRepository.existsById(id))return ResponseEntity.notFound().build();
+        Optional<Estado> optEstado = estadoRepository.findById(id);
+        if(!optEstado.isPresent())return ResponseEntity.notFound().build();
+
+
+
+        boolean imageDelete = imageService.deleteImage(optEstado.get().getImage());
+
+        if(!imageDelete)return ResponseEntity.badRequest().build();
 
         estadoRepository.deleteById(id);
         return ResponseEntity.noContent().build();

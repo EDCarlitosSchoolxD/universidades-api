@@ -1,6 +1,7 @@
 package com.universidadesapi.universidadesapi.service;
 
 import java.util.Base64;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,47 @@ public class ImageService {
     private ImageRepository imageRepository;
 
 
+    @Autowired(required = true)
+    FilesUtils filesUtils;
+
+    
+
     public Image saveImage(Image image){
+        String encode = image.getEncode();
+        String tipeFile = image.getTipo();
+        String nombre = image.getNombre();
+
+        
+        if(encode==null)return null;
+        if(tipeFile==null)return null;
+        if(nombre==null)return null;
+
+        //Decodifico el archivo
+        byte[] imageDecode = Base64.getDecoder().decode(encode);
+
+        //Genero un nombre aleatorio para la imagen
+        String nameRandom = filesUtils.generateNameFile();
+        String extension = filesUtils.checkFileExtension(nombre);
+
+        String fileName = filesUtils.nameFile(nameRandom, extension);
+
+        //Se crea una ruta para la imagen y se guarda en google cloud
+        String rutaCloud = createRuta("estados", fileName);
+        String url = gcpStorage.uploadFile(nombre, imageDecode, tipeFile, rutaCloud);
+
+
+        //Se setean los valores para guardar en la base de datos
+        image.setRuta(url);
+        image.setRutaCloud(rutaCloud);
+        image.setNombre(fileName);
+
+        return imageRepository.save(image);
+
+
+    }
+
+
+    public Image updateImage(Image image){
         String encode = image.getEncode();
         String tipeFile = image.getTipo();
         String nombre = image.getNombre();
@@ -28,16 +69,34 @@ public class ImageService {
         if(tipeFile==null)return null;
         if(nombre==null)return null;
 
+        Long id = image.getId();
+
+        Optional<Image> optionalImage = imageRepository.findById(id);
+
+        if(!optionalImage.isPresent())return null;
+
+        image.setRutaCloud(optionalImage.get().getRutaCloud());
+        image.setNombre(optionalImage.get().getNombre());
 
         byte[] imageDecode = Base64.getDecoder().decode(encode);
 
-
-        String url = gcpStorage.uploadFile(nombre, imageDecode, tipeFile);
-
+        String url = gcpStorage.uploadFile(nombre,imageDecode,tipeFile,image.getRutaCloud());
         image.setRuta(url);
-
-        return imageRepository.save(image);
-
+        return image;
 
     }
+
+    public boolean deleteImage(Image image){
+        return gcpStorage.deleteFile(image.getRutaCloud());
+    }
+
+
+    public String createRuta(String ruta,String fileName){
+
+        if(fileName ==null)return "";
+
+        
+         return ruta+"/"+fileName;
+    }
+
 }
