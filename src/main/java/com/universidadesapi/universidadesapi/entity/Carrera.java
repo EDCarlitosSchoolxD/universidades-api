@@ -1,5 +1,7 @@
 package com.universidadesapi.universidadesapi.entity;
 
+import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +16,7 @@ import lombok.*;
 @Setter
 @ToString
 
-public class Carrera {
+public class Carrera extends ContainImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -30,36 +32,25 @@ public class Carrera {
     @Column(columnDefinition = "TEXT")
     private String descripcion;
 
-    @NotNull
-    @NotBlank
     @Column(columnDefinition = "TEXT")
 
     private String objetivo;
 
     @Column(columnDefinition = "TEXT")
-    @NotNull
-    @NotBlank
     private String aprendizaje;
 
 
     @Column(columnDefinition = "TEXT")
-    @NotNull
-    @NotBlank
     private String trabajo;
 
 
     @Column(columnDefinition = "TEXT")
-    @NotNull
-    @NotBlank
     private String perfilIngreso;
 
     @Column(columnDefinition = "TEXT")
-    @NotNull
-    @NotBlank
     private String perfilEgreso;
 
 
-    @Positive
     private Long likes = 0L;
 
     @ManyToOne
