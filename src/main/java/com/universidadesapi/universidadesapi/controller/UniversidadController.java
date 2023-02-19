@@ -4,6 +4,7 @@ import com.universidadesapi.universidadesapi.entity.Universidad;
 import com.universidadesapi.universidadesapi.service.UniversidadService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,7 @@ public class UniversidadController {
         return universidadService.getAll();
     }
 
-    @PostMapping("/")
+    @PostMapping(value = "/",consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Universidad> save(@Valid @RequestBody Universidad universidad){
         return universidadService.save(universidad);
     }

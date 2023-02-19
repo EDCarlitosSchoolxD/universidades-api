@@ -1,5 +1,6 @@
 package com.universidadesapi.universidadesapi.service;
 
+import com.universidadesapi.universidadesapi.entity.Image;
 import com.universidadesapi.universidadesapi.entity.Municipio;
 import com.universidadesapi.universidadesapi.repository.MunicipioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class MunicipioService {
 
     @Autowired
     public MunicipioRepository municipioRepository;
+    @Autowired
+    public ImageService imageService;
 
 
     public List<Municipio> getAll(){
@@ -23,6 +26,12 @@ public class MunicipioService {
 
     public ResponseEntity<Municipio> save(Municipio municipio){
         if(municipio.getId() != null)return ResponseEntity.badRequest().build();
+
+        Image image = imageService.saveImage(municipio.getImage(),"municipios");
+        if(image !=null){
+            image.setEncode(null);
+            municipio.setImage(image);
+        }
 
         Municipio result = municipioRepository.save(municipio);
         return ResponseEntity.ok(result);

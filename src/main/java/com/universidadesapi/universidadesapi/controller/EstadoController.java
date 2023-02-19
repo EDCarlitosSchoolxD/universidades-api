@@ -1,13 +1,12 @@
 package com.universidadesapi.universidadesapi.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.universidadesapi.universidadesapi.entity.Estado;
-import com.universidadesapi.universidadesapi.repository.EstadoRepository;
 import com.universidadesapi.universidadesapi.service.EstadoService;
 import com.universidadesapi.universidadesapi.service.GCPStorage;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +32,7 @@ public class EstadoController {
     }
 
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Estado> save(@Valid @RequestBody Estado estado){
         return estadoService.save(estado);
     }

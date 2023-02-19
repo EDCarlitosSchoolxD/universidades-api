@@ -1,7 +1,11 @@
 package com.universidadesapi.universidadesapi.service;
 
+import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
+import com.universidadesapi.universidadesapi.entity.Carrera;
 import com.universidadesapi.universidadesapi.entity.Estado;
 import com.universidadesapi.universidadesapi.entity.Image;
+import com.universidadesapi.universidadesapi.entity.Municipio;
+import com.universidadesapi.universidadesapi.entity.Universidad;
 import com.universidadesapi.universidadesapi.repository.EstadoRepository;
 import com.universidadesapi.universidadesapi.repository.ImageRepository;
 
@@ -9,9 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class EstadoService {
@@ -29,13 +34,11 @@ public class EstadoService {
         if(estado.getId() != null) ResponseEntity.badRequest().build();
 
 
-        Image image = imageService.saveImage(estado.getImage());
+        Image image = imageService.saveImage(estado.getImage(),"estados");
         if(image != null){
             image.setEncode(null);
             estado.setImage(image);
         }
-        
-
         
 
         Estado resultado = estadoRepository.save(estado);
@@ -93,9 +96,41 @@ public class EstadoService {
 
         boolean imageDelete = imageService.deleteImage(optEstado.get().getImage());
 
+        List<Municipio> municipios = optEstado.get().getMunicipios();
+        ContainImage[] arrayMunicipios = new ContainImage[municipios.size()];
+        arrayMunicipios = municipios.toArray(arrayMunicipios);
+        
+        //1.- Creo una Lista de universidades
+        List<Universidad> universidades = new ArrayList<Universidad>();
+        //2.-  Por cada municipio tomo sus universidades con un map
+        //3.-  Con el forEach agrego la universidad a la Lista de universidades
+        for(Municipio municipios2:municipios){
+            municipios2.getUniversidades().stream().map(uni -> uni).forEach(uni -> {
+                universidades.add(uni);
+            });
+        }
+        ContainImage[] arrayUniversidades = new ContainImage[universidades.size()];
+        arrayUniversidades = universidades.toArray(arrayUniversidades);
+
+
+        List<Carrera> carreras = new ArrayList<Carrera>();
+        for(Universidad universidad: universidades){
+
+            universidad.getCarreras().stream().map(carrera -> carrera).forEach(carrera ->{
+                carreras.add(carrera);
+            });;
+        }
+        ContainImage[] arrayCarreras = new ContainImage[carreras.size()];
+        arrayCarreras = carreras.toArray(arrayCarreras);
+
+        imageService.deleteAllImage(arrayMunicipios);
+        imageService.deleteAllImage(arrayUniversidades);
+        imageService.deleteAllImage(arrayCarreras);
+
         if(!imageDelete)return ResponseEntity.badRequest().build();
 
         estadoRepository.deleteById(id);
+
         return ResponseEntity.noContent().build();
     }
 

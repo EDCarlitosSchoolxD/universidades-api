@@ -1,7 +1,6 @@
 package com.universidadesapi.universidadesapi.controller;
 
 import com.universidadesapi.universidadesapi.entity.Municipio;
-import com.universidadesapi.universidadesapi.repository.MunicipioRepository;
 import com.universidadesapi.universidadesapi.service.MunicipioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
