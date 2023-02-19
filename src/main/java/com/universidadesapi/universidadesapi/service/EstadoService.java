@@ -68,7 +68,7 @@ public class EstadoService {
 
 
         if(estado.getImage() != null && estado.getImage().getId() != null){
-            Image image = imageService.updateImage(estado.getImage());
+            Image image = imageService.updateImage(estado.getImage(),"estados");
 
             if(image !=null){
                 image.setEncode(null);

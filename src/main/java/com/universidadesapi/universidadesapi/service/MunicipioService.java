@@ -1,13 +1,17 @@
 package com.universidadesapi.universidadesapi.service;
 
+import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
+import com.universidadesapi.universidadesapi.entity.Carrera;
 import com.universidadesapi.universidadesapi.entity.Image;
 import com.universidadesapi.universidadesapi.entity.Municipio;
+import com.universidadesapi.universidadesapi.entity.Universidad;
 import com.universidadesapi.universidadesapi.repository.MunicipioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,10 +56,21 @@ public class MunicipioService {
         }
 
         Optional<Municipio> find = municipioRepository.findById(id);
-
         if(!find.isPresent())return ResponseEntity.notFound().build();
-
         Municipio findResult = find.get();
+
+        if(municipio.getImage() != null && municipio.getImage().getId() != null){
+            Image image = imageService.updateImage(municipio.getImage(),"municipios");
+
+            if(image !=null){
+                image.setEncode(null);
+                findResult.setImage(image);
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
+            
+        }
+
         findResult.setNombre(municipio.getNombre());
         findResult.setEstado(municipio.getEstado());
 
@@ -66,7 +81,36 @@ public class MunicipioService {
 
 
     public ResponseEntity<Municipio> delete(@PathVariable Long id){
-        if(!municipioRepository.existsById(id))return ResponseEntity.notFound().build();
+        Optional<Municipio> optMunicipio = municipioRepository.findById(id);
+
+        if(!optMunicipio.isEmpty())return ResponseEntity.notFound().build();
+
+
+        Municipio municipioSearch = optMunicipio.get();
+        boolean imageDelete = imageService.deleteImage(municipioSearch.getImage());
+
+        if(!imageDelete)return ResponseEntity.badRequest().build();
+
+        List<Universidad> universidades = new ArrayList<Universidad>();
+        municipioSearch.getUniversidades().stream().map(universidad -> universidad).forEach(uni ->{
+            universidades.add(uni);
+        });
+        ContainImage[] arrayUniversidades = new ContainImage[universidades.size()];
+        arrayUniversidades = universidades.toArray(arrayUniversidades);
+
+
+        List<Carrera> carreras = new ArrayList<Carrera>();
+        for(Universidad universidad: universidades){
+
+            universidad.getCarreras().stream().map(carrera -> carrera).forEach(carrera ->{
+                carreras.add(carrera);
+            });;
+        }
+        ContainImage[] arrayCarreras = new ContainImage[carreras.size()];
+        arrayCarreras = carreras.toArray(arrayCarreras);
+
+        imageService.deleteAllImage(arrayUniversidades);
+        imageService.deleteAllImage(arrayCarreras);
 
         municipioRepository.deleteById(id);
         return ResponseEntity.noContent().build();

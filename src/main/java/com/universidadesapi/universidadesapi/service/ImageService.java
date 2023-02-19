@@ -65,7 +65,7 @@ public class ImageService {
     }
 
 
-    public Image updateImage(Image image){
+    public Image updateImage(Image image,String carpeta){
         String encode = image.getEncode();
         String tipeFile = image.getTipo();
         String nombre = image.getNombre();
@@ -78,16 +78,20 @@ public class ImageService {
 
         Optional<Image> optionalImage = imageRepository.findById(id);
 
-        if(!optionalImage.isPresent())return null;
+        // if(!optionalImage.isPresent())return null;
 
-        image.setRutaCloud(optionalImage.get().getRutaCloud());
-        image.setNombre(optionalImage.get().getNombre());
+        // image.setRutaCloud(optionalImage.get().getRutaCloud());
+        // image.setNombre(optionalImage.get().getNombre());
 
-        byte[] imageDecode = Base64.getDecoder().decode(encode);
+        // byte[] imageDecode = Base64.getDecoder().decode(encode);
 
-        String url = gcpStorage.uploadFile(nombre,imageDecode,tipeFile,image.getRutaCloud());
-        image.setRuta(url);
-        return image;
+        //Eliminamos la imagen
+        this.deleteImage(optionalImage.get());
+        //Volvemos a crear la imagen
+        // String url = gcpStorage.uploadFile(nombre,imageDecode,tipeFile,image.getRutaCloud());
+        return this.saveImage(image, carpeta);
+
+        // return image;
 
     }
 
