@@ -1,13 +1,13 @@
 package com.universidadesapi.universidadesapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class Estado {
+public class Estado extends ContainImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -30,16 +30,10 @@ public class Estado {
 
 
 
-    @OneToMany(mappedBy = "estado",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "estado",cascade = CascadeType.ALL)
     @JsonBackReference
     @ToString.Exclude
     private List<Municipio> municipios;
-
-
-    @OneToOne
-    @JoinColumn(name = "id_image")
-    private Image image;
-
 
 
 }

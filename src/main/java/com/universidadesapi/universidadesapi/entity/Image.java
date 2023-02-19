@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,6 +13,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -69,11 +72,14 @@ public class Image {
     @JsonInclude(value = Include.NON_NULL)
     private String encode;
 
-
-    @OneToOne(mappedBy = "image",cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @OneToOne(mappedBy = "image",cascade = CascadeType.ALL)
+    @JsonIgnore    
     private Estado estado;
+ 
 
+    @OneToOne(mappedBy = "image",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Municipio municipio;
 
     
 }

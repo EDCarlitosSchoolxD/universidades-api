@@ -1,12 +1,17 @@
 package com.universidadesapi.universidadesapi.service;
 
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
 import com.universidadesapi.universidadesapi.entity.Image;
+import com.universidadesapi.universidadesapi.entity.Municipio;
+import com.universidadesapi.universidadesapi.entity.Universidad;
 import com.universidadesapi.universidadesapi.repository.ImageRepository;
 
 @Service
@@ -25,7 +30,7 @@ public class ImageService {
 
     
 
-    public Image saveImage(Image image){
+    public Image saveImage(Image image,String carpeta){
         String encode = image.getEncode();
         String tipeFile = image.getTipo();
         String nombre = image.getNombre();
@@ -45,7 +50,7 @@ public class ImageService {
         String fileName = filesUtils.nameFile(nameRandom, extension);
 
         //Se crea una ruta para la imagen y se guarda en google cloud
-        String rutaCloud = createRuta("estados", fileName);
+        String rutaCloud = createRuta(carpeta, fileName);
         String url = gcpStorage.uploadFile(nombre, imageDecode, tipeFile, rutaCloud);
 
 
@@ -89,6 +94,18 @@ public class ImageService {
     public boolean deleteImage(Image image){
         return gcpStorage.deleteFile(image.getRutaCloud());
     }
+
+
+
+     public void deleteAllImage(ContainImage[] containImage ){
+        Arrays.asList(containImage).stream().forEach(contain -> {
+            this.deleteImage(contain.getImage());
+        });;
+
+    }
+
+
+
 
 
     public String createRuta(String ruta,String fileName){
