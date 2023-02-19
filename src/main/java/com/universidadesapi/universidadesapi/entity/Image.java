@@ -81,5 +81,9 @@ public class Image {
     @JsonIgnore
     private Municipio municipio;
 
+    @OneToOne(mappedBy = "image",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Universidad universidad;
+
     
 }

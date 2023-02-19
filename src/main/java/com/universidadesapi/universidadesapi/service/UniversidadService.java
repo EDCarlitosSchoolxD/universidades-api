@@ -1,11 +1,15 @@
 package com.universidadesapi.universidadesapi.service;
 
+import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
+import com.universidadesapi.universidadesapi.entity.Carrera;
+import com.universidadesapi.universidadesapi.entity.Image;
 import com.universidadesapi.universidadesapi.entity.Universidad;
 import com.universidadesapi.universidadesapi.repository.UniversidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +19,8 @@ public class UniversidadService {
 
     @Autowired
     UniversidadRepository universidadRepository;
+    @Autowired
+    ImageService imageService;
 
     public List<Universidad> getAll(){
         return  universidadRepository.findAll();
@@ -22,6 +28,13 @@ public class UniversidadService {
 
     public ResponseEntity<Universidad> save(Universidad universidad){
         if(universidad.getId() != null)return ResponseEntity.badRequest().build();
+
+
+        Image image = imageService.saveImage(universidad.getImage(),"universidades");
+        if(image !=null){
+            image.setEncode(null);
+            universidad.setImage(image);
+        }
 
         Universidad result =universidadRepository.save(universidad);
         return ResponseEntity.ok(result);
@@ -44,8 +57,21 @@ public class UniversidadService {
         }
 
         Optional<Universidad> find = universidadRepository.findById(id);
-
         if(find.isEmpty())return ResponseEntity.notFound().build();
+        Universidad findResult = find.get();
+
+        if(universidad.getImage() != null && universidad.getImage().getId() != null){
+            Image image = imageService.updateImage(universidad.getImage(),"universidades");
+
+            if(image !=null){
+                image.setEncode(null);
+                findResult.setImage(image);
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
+            
+        }
+
 
 
         Universidad findSave = find.get();
@@ -57,8 +83,26 @@ public class UniversidadService {
     }
 
     public ResponseEntity<Universidad> delete(Long id){
-        if(!universidadRepository.existsById(id))return ResponseEntity.notFound().build();
 
+        Optional<Universidad> optUniversidad = universidadRepository.findById(id);
+        if(!optUniversidad.isPresent())return ResponseEntity.notFound().build();
+
+        Universidad universidadSearch = optUniversidad.get();
+        boolean deleteImage = imageService.deleteImage(universidadSearch.getImage());
+        if(!deleteImage)return ResponseEntity.badRequest().build();
+
+        //Eliminamos todas las imagenes de las todas las carreras de esta universidad
+        List<Carrera> carreras = new ArrayList<Carrera>();
+        universidadSearch.getCarreras().stream().map(carrera -> carrera).forEach(carrera ->{
+            carreras.add(carrera);
+        });
+        ContainImage[] arrayCarreras = new ContainImage[carreras.size()];
+        arrayCarreras = carreras.toArray(arrayCarreras);
+
+
+        imageService.deleteAllImage(arrayCarreras);
+
+       
         universidadRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
