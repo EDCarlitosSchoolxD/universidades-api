@@ -11,16 +11,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/carreras")
+@CrossOrigin("*")
 public class CarreraController {
 
     @Autowired
     CarreraService carreraService;
 
 
-    @GetMapping("/")
-    public List<Carrera> getAll(){
-        return carreraService.getAll();
-    }
+    // @GetMapping("/")
+    // public List<Carrera> getAll(){
+    //     return carreraService.getAll();
+    // }
 
 
     @GetMapping("/{id}")
@@ -46,5 +47,10 @@ public class CarreraController {
     @GetMapping("/t")
     public Carrera t(){
         return new Carrera();
+    }
+
+    @GetMapping("/uni/{id}")
+    public List<Carrera> findByUniId(@PathVariable Long id){
+        return carreraService.findByUniId(id);
     }
 }

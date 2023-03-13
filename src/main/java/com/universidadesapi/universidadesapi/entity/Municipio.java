@@ -1,10 +1,7 @@
 package com.universidadesapi.universidadesapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
-import com.universidadesapi.universidadesapi.Interfaces.ContainImageInterface;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -33,6 +30,9 @@ public class Municipio extends ContainImage{
     @ManyToOne
     @JoinColumn(name = "id_state")
     private Estado estado;
+
+    @Column(unique = true)
+    private String slug;
 
 
     @OneToMany(mappedBy = "municipio",cascade = CascadeType.ALL, orphanRemoval = true)

@@ -11,6 +11,8 @@ import lombok.*;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.URL;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,16 +35,15 @@ public class Universidad extends ContainImage {
     @Size(min = 10,max = 255)
     private String nombre;
 
-    @NotNull
-    @NotBlank
-    @Size(min = 10,max = 255)
-    private String phone;
+
 
     @NotNull
     private Long likes = 0L;
     @NotNull
     private Double latitud;
 
+    @URL
+    private String web;
 
     @NotNull
     private Double longitud;
@@ -50,6 +51,8 @@ public class Universidad extends ContainImage {
     @JoinColumn(name = "municipio_id")
     private Municipio municipio;
 
+    
+    private String slug;
 
     @OneToMany(mappedBy = "universidad",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonBackReference

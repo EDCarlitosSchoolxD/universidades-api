@@ -7,7 +7,6 @@ import com.universidadesapi.universidadesapi.entity.Image;
 import com.universidadesapi.universidadesapi.entity.Municipio;
 import com.universidadesapi.universidadesapi.entity.Universidad;
 import com.universidadesapi.universidadesapi.repository.EstadoRepository;
-import com.universidadesapi.universidadesapi.repository.ImageRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class EstadoService {
@@ -26,6 +24,10 @@ public class EstadoService {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    StringUtils stringUtils;
+
+
     public List<Estado> getAll(){
         return  estadoRepository.findAll();
     }
@@ -34,13 +36,15 @@ public class EstadoService {
         if(estado.getId() != null) ResponseEntity.badRequest().build();
 
 
-        Image image = imageService.saveImage(estado.getImage(),"estados");
+        Image image = estado.getImage();
         if(image != null){
+            image = imageService.saveImage(estado.getImage(),"estados");
             image.setEncode(null);
             estado.setImage(image);
         }
         
 
+        estado.setSlug(stringUtils.slug(estado.getNombre()));
         Estado resultado = estadoRepository.save(estado);
         return ResponseEntity.ok(resultado);
     }
@@ -80,7 +84,7 @@ public class EstadoService {
         }
 
         
-
+        resultadoSearch.setSlug(stringUtils.slug(estado.getNombre()));
         Estado resultado = estadoRepository.save(resultadoSearch);
         return ResponseEntity.ok(resultado);
 

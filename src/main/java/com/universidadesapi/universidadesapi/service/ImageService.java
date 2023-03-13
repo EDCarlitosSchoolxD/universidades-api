@@ -7,11 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
 import com.universidadesapi.universidadesapi.entity.Image;
-import com.universidadesapi.universidadesapi.entity.Municipio;
-import com.universidadesapi.universidadesapi.entity.Universidad;
 import com.universidadesapi.universidadesapi.repository.ImageRepository;
 
 @Service

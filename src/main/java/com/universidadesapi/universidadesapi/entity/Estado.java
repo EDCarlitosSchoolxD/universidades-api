@@ -26,8 +26,11 @@ public class Estado extends ContainImage {
     @NotNull
     @NotBlank(message = "El nombre es requerido")
     @Size(min = 10, max = 255)
+    @Column(unique = true)
     private String nombre;
 
+    @Column(unique = true)
+    private String slug;
 
 
     @OneToMany(mappedBy = "estado",cascade = CascadeType.ALL)

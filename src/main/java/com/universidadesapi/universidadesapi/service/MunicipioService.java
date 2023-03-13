@@ -23,6 +23,8 @@ public class MunicipioService {
     @Autowired
     public ImageService imageService;
 
+    @Autowired
+    public StringUtils stringUtils;
 
     public List<Municipio> getAll(){
         return municipioRepository.findAll();
@@ -37,6 +39,7 @@ public class MunicipioService {
             municipio.setImage(image);
         }
 
+        municipio.setSlug(stringUtils.slug(municipio.getNombre()));
         Municipio result = municipioRepository.save(municipio);
         return ResponseEntity.ok(result);
     }
@@ -72,6 +75,7 @@ public class MunicipioService {
         }
 
         findResult.setNombre(municipio.getNombre());
+        findResult.setSlug(stringUtils.slug(municipio.getNombre()));
         findResult.setEstado(municipio.getEstado());
 
         Municipio result = municipioRepository.save(findResult);

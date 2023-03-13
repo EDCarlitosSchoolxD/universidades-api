@@ -1,11 +1,9 @@
 package com.universidadesapi.universidadesapi.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.universidadesapi.universidadesapi.Abstracs.ContainImage;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,8 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -85,5 +81,9 @@ public class Image {
     @JsonIgnore
     private Universidad universidad;
 
+
+    @OneToOne(mappedBy = "planEstudio",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Carrera carrera;
     
 }

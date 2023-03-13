@@ -21,21 +21,29 @@ public class UniversidadService {
     UniversidadRepository universidadRepository;
     @Autowired
     ImageService imageService;
+    @Autowired
+    StringUtils stringUtils;
 
     public List<Universidad> getAll(){
         return  universidadRepository.findAll();
+    }
+
+    public Universidad findBySlug(String sluString){
+        return findBySlug(sluString);
     }
 
     public ResponseEntity<Universidad> save(Universidad universidad){
         if(universidad.getId() != null)return ResponseEntity.badRequest().build();
 
 
-        Image image = imageService.saveImage(universidad.getImage(),"universidades");
+        Image image = universidad.getImage();
         if(image !=null){
+            image = imageService.saveImage(universidad.getImage(),"universidades");
             image.setEncode(null);
             universidad.setImage(image);
         }
 
+        universidad.setSlug(stringUtils.slug(universidad.getNombre()));
         Universidad result =universidadRepository.save(universidad);
         return ResponseEntity.ok(result);
     }
@@ -76,6 +84,7 @@ public class UniversidadService {
 
         Universidad findSave = find.get();
         universidad.setId(findSave.getId());
+        universidad.setSlug(stringUtils.slug(universidad.getNombre()));
         universidad.setMunicipio(findSave.getMunicipio());
         universidad.setCarreras(findSave.getCarreras());
 

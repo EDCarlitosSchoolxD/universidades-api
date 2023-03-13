@@ -19,8 +19,8 @@ public class CarreraService {
     ImageService imageService;
 
 
-    public List<Carrera> getAll(){
-        return carreraRepository.findAll();
+    public List<Carrera> findByUniId(Long id){
+        return carreraRepository.findByUniversidadId(id);
     }
 
     public ResponseEntity<Carrera> getOne(Long id){
@@ -35,12 +35,11 @@ public class CarreraService {
     public ResponseEntity<Carrera> save(Carrera carrera){
         if(carrera.getId() != null)return  ResponseEntity.badRequest().build();
 
-        Image image = imageService.saveImage(carrera.getImage(),"carreras");
+        Image image = imageService.saveImage(carrera.getPlanEstudio(),"carreras");
         if(image !=null){
             image.setEncode(null);
-            carrera.setImage(image);
+            carrera.setPlanEstudio(image);
         }
-
 
 
         Carrera result = carreraRepository.save(carrera);
@@ -57,12 +56,12 @@ public class CarreraService {
 
         Carrera findResult = find.get();
 
-        if(carrera.getImage() != null && carrera.getImage().getId() != null){
-            Image image = imageService.updateImage(carrera.getImage(),"carreras");
+        if(carrera.getPlanEstudio() != null && carrera.getPlanEstudio().getId() != null){
+            Image image = imageService.updateImage(carrera.getPlanEstudio(),"carreras");
 
             if(image !=null){
                 image.setEncode(null);
-                findResult.setImage(image);
+                findResult.setPlanEstudio(image);
             }else{
                 return ResponseEntity.badRequest().build();
             }
@@ -84,7 +83,7 @@ public class CarreraService {
         if(!optCarrera.isPresent())return ResponseEntity.notFound().build();
 
         Carrera carrera = optCarrera.get();
-        boolean deleteImage = imageService.deleteImage(carrera.getImage());
+        boolean deleteImage = imageService.deleteImage(carrera.getPlanEstudio());
 
         if(!deleteImage)return ResponseEntity.badRequest().build();
 
