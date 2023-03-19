@@ -1,6 +1,7 @@
 package com.universidadesapi.universidadesapi.controller;
 
 import com.universidadesapi.universidadesapi.entity.Municipio;
+import com.universidadesapi.universidadesapi.repository.MunicipioRepository;
 import com.universidadesapi.universidadesapi.service.MunicipioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/municipios")
@@ -16,6 +18,9 @@ public class MunicipioController {
 
     @Autowired
     public MunicipioService municipioService;
+
+    @Autowired
+    public MunicipioRepository municipioRepository;
 
 
     @GetMapping("/")
@@ -45,4 +50,24 @@ public class MunicipioController {
     public ResponseEntity<Municipio> deletE(@PathVariable Long id){
         return municipioService.delete((id));
     }
+
+
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<Municipio> findBySlug(@PathVariable String slug){
+        Optional<Municipio> optionalMunicipio = municipioRepository.findBySlug(slug);
+        if(!optionalMunicipio.isPresent())return ResponseEntity.notFound().build();
+
+        Municipio resultado = (Municipio) optionalMunicipio.get();
+        return ResponseEntity.ok(resultado);
+    }
+
+
+
+    
+
+    @GetMapping("/estado/{id}")
+    public ResponseEntity<List<Municipio>> findByEstadoId(@PathVariable Long id){
+        return ResponseEntity.ok(municipioRepository.findByEstadoId(id));
+    }
+
 }

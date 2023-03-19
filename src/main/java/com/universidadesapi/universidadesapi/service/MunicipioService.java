@@ -87,7 +87,7 @@ public class MunicipioService {
     public ResponseEntity<Municipio> delete(@PathVariable Long id){
         Optional<Municipio> optMunicipio = municipioRepository.findById(id);
 
-        if(!optMunicipio.isEmpty())return ResponseEntity.notFound().build();
+        if(optMunicipio.isEmpty())return ResponseEntity.notFound().build();
 
 
         Municipio municipioSearch = optMunicipio.get();

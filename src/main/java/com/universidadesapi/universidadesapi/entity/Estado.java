@@ -25,7 +25,7 @@ public class Estado extends ContainImage {
     private Long id;
     @NotNull
     @NotBlank(message = "El nombre es requerido")
-    @Size(min = 10, max = 255)
+    @Size(min = 5, max = 255)
     @Column(unique = true)
     private String nombre;
 

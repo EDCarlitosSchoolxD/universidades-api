@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/universidades")
@@ -19,6 +20,8 @@ public class UniversidadController {
     @Autowired
     public UniversidadService universidadService;
 
+    @Autowired
+    public UniversidadRepository universidadRepository;
 
 
     @GetMapping("/slug/{slug}")
@@ -51,4 +54,14 @@ public class UniversidadController {
     public ResponseEntity<Universidad> delete(@PathVariable Long id){
         return universidadService.delete(id);
     }
+
+
+   @GetMapping("/municipio/{id}")
+   public ResponseEntity<List<Universidad>> findByMunicipioId(@PathVariable Long id){
+    return ResponseEntity.ok(universidadRepository.findByMunicipioId(id));
+   }
+
+
+
+    
 }

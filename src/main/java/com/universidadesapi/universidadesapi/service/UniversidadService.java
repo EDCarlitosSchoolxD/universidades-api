@@ -29,7 +29,7 @@ public class UniversidadService {
     }
 
     public Universidad findBySlug(String sluString){
-        return findBySlug(sluString);
+        return universidadRepository.findBySlug(sluString);
     }
 
     public ResponseEntity<Universidad> save(Universidad universidad){

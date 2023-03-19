@@ -1,6 +1,7 @@
 package com.universidadesapi.universidadesapi.controller;
 
 import com.universidadesapi.universidadesapi.entity.Estado;
+import com.universidadesapi.universidadesapi.repository.EstadoRepository;
 import com.universidadesapi.universidadesapi.service.EstadoService;
 import com.universidadesapi.universidadesapi.service.GCPStorage;
 
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/estados")
@@ -19,6 +21,10 @@ public class EstadoController {
 
     @Autowired
     EstadoService estadoService;
+
+    @Autowired
+    EstadoRepository estadoRepository;
+
 
     @Autowired GCPStorage gcpStorage;
 
@@ -51,6 +57,14 @@ public class EstadoController {
         return estadoService.delete(id);
     }
 
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<Estado> getBySlug(@PathVariable String slug){
+        Optional<Estado> optionalEstado = estadoRepository.findBySlug(slug);
+        if(!optionalEstado.isPresent())return ResponseEntity.notFound().build();
+
+        Estado resultado = (Estado) optionalEstado.get();
+        return ResponseEntity.ok(resultado);
+    }
 
     
 }

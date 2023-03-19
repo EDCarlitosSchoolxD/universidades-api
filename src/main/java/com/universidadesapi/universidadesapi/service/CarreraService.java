@@ -35,8 +35,9 @@ public class CarreraService {
     public ResponseEntity<Carrera> save(Carrera carrera){
         if(carrera.getId() != null)return  ResponseEntity.badRequest().build();
 
-        Image image = imageService.saveImage(carrera.getPlanEstudio(),"carreras");
+        Image image = carrera.getPlanEstudio();
         if(image !=null){
+            imageService.saveImage(image,"carreras");
             image.setEncode(null);
             carrera.setPlanEstudio(image);
         }
@@ -82,10 +83,14 @@ public class CarreraService {
         Optional<Carrera> optCarrera = carreraRepository.findById(id);
         if(!optCarrera.isPresent())return ResponseEntity.notFound().build();
 
-        Carrera carrera = optCarrera.get();
-        boolean deleteImage = imageService.deleteImage(carrera.getPlanEstudio());
 
-        if(!deleteImage)return ResponseEntity.badRequest().build();
+
+        Carrera carrera = optCarrera.get();
+
+        if(carrera.getPlanEstudio() != null){
+            imageService.deleteImage(carrera.getPlanEstudio());
+        }
+         
 
 
         carreraRepository.deleteById(id);

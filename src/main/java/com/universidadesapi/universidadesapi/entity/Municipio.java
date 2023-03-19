@@ -24,7 +24,7 @@ public class Municipio extends ContainImage{
     @Column(length = 200)
     @NotNull
     @NotBlank(message = "El nombre del municipio es necesario")
-    @Size(min = 10,max = 255)
+    @Size(min = 5,max = 255)
     private String nombre;
 
     @ManyToOne
