@@ -70,4 +70,5 @@ public class MunicipioController {
         return ResponseEntity.ok(municipioRepository.findByEstadoId(id));
     }
 
+
 }

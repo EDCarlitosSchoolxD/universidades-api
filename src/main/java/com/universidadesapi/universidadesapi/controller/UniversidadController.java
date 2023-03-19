@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/universidades")
@@ -18,10 +18,10 @@ import java.util.Optional;
 public class UniversidadController {
 
     @Autowired
-    public UniversidadService universidadService;
+    UniversidadService universidadService;
 
     @Autowired
-    public UniversidadRepository universidadRepository;
+    UniversidadRepository universidadRepository;
 
 
     @GetMapping("/slug/{slug}")
@@ -62,6 +62,10 @@ public class UniversidadController {
    }
 
 
+   @GetMapping("/buscador/{text}")
+   public ResponseEntity<List<Universidad>> tln(@PathVariable String text){
+    return ResponseEntity.ok(universidadRepository.findByNombreContainingIgnoreCase(text));
+   }
 
     
 }

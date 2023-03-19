@@ -68,7 +68,7 @@ public class UniversidadService {
         if(find.isEmpty())return ResponseEntity.notFound().build();
         Universidad findResult = find.get();
 
-        if(universidad.getImage() != null && universidad.getImage().getId() != null){
+        if(universidad.getImage() != null && universidad.getImage().getEncode() != null && universidad.getImage().getId() != null){
             Image image = imageService.updateImage(universidad.getImage(),"universidades");
 
             if(image !=null){
